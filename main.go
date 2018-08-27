@@ -3,25 +3,28 @@ package main
 
 
 import ("fmt"
-	"database/sql"
-	_"github.com/go-sql-driver/mysql"
+	"products_importer/procesor"
+	"github.com/BurntSushi/toml"
+	"products_importer/model"
 )
 
+var conf model.Config
 
 func task() {
+
 	fmt.Println("I am runnning task.")
+	files := procesor.ReadFile(conf)
+	fmt.Println(files)
+	//fmt.Println(model.Product{"edo",33,10,66});
 
-	// Open up our database connection.
-	db, err := sql.Open("mysql", "username:root@tcp(127.0.0.1:3306)/test_db")
+}
 
-	// if there is an error opening the connection, handle it
-	if err != nil {
-		panic(err.Error())
+func init(){
+
+	if _, err := toml.DecodeFile("./config.toml", &conf); err != nil {
+		fmt.Println(err)
 	}
-
-	// defer the close till after the main function has finished
-	// executing
-	defer db.Close()
+	fmt.Printf("%#v\n", conf)
 }
 
 func main() {

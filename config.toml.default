@@ -1,0 +1,6 @@
+# filename: config.toml
+
+filePath = "./files/"
+db = "my_db"
+
+#https://jonathanmh.com/golang-toml-configs-example-mysql-connection/
