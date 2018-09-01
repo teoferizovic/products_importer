@@ -10,11 +10,18 @@ import ("fmt"
 
 var conf model.Config
 
-func task() {
+func task() error {
 
 	fmt.Println("I am runnning task.")
-	files := procesor.ReadFile(conf)
+	files, err := procesor.ReadFile(conf)
+
+	if err != nil {
+		return  err
+	}
+
 	fmt.Println(files)
+
+	return nil
 	//fmt.Println(model.Product{"edo",33,10,66});
 
 }
