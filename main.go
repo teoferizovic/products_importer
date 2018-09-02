@@ -20,6 +20,7 @@ func task() error {
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}
+
 	defer db.Close()
 
 	// Open doesn't open a connection. Validate DSN data:
@@ -28,14 +29,20 @@ func task() error {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	fmt.Println("I am runnning task.")
-	files, err := procesor.ReadFile(conf)
+	//fmt.Println("I am runnning task.")
+	//extProducts, err := procesor.ReadFile(conf)
 
 	if err != nil {
 		return  err
 	}
 
-	fmt.Println(files)
+	err = procesor.InsertCategories(db)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	//fmt.Println(extProducts)
 
 	return nil
 	//fmt.Println(model.Product{"edo",33,10,66});
