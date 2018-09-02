@@ -21,7 +21,6 @@ func ReadFile(conf model.Config) ([]model.ExtProduct,error) {
 	}
 
 	t := time.Now()
-	fmt.Println(t.Format("20060102150405"))
 
 	for _, f := range files {
 

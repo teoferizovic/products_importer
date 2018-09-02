@@ -13,7 +13,7 @@ func InsertCategories(db *sql.DB) error {
 
 	//var vs []model.Category
 
-	vs := []model.Category{{"Category111","hh"},{"Category2112","gaga"}}
+	vs := []model.Category{{Name:"Category22",Description:"kk"},{Name:"Category45",Description:"wewewe"}}
 
 	//fmt.Println(vs)
 
@@ -41,29 +41,39 @@ func InsertCategories(db *sql.DB) error {
 	}
 
 	return nil
-	/*v := model.Category{"Category11",""}
-
-	//stmt, err := db.Prepare("INSERT INTO categories VALUES(?,?)")
-	stmt, err := db.Prepare("INSERT categories SET name=?,description=?")
-
-	if err != nil {
-		fmt.Println("error",err)
-		return err
-	}
-
-	_, err = stmt.Exec(v.Name,v.Description)
-
-	if err != nil {
-		fmt.Println("error",err)
-		return err
-	}*/
-	//_, err = stmt.Exec(v)
-
-	return nil
 }
 
-func AllCategories() error {
-	return nil
+func AllCategories(db *sql.DB) (map[string]int,error) {
+
+	var categories []model.Category
+	mapCategories := make(map[string]int)
+
+
+	rows, err := db.Query("SELECT c.id,c.name,c.description FROM categories as c")
+
+	if err != nil {
+		return nil, err
+	}
+
+	var id int
+	var name,description string
+
+	for rows.Next() {
+
+		err = rows.Scan(&id,&name, &description)
+
+		if err != nil {
+			return nil,err
+		}
+
+		categories = append(categories, model.Category{ID:id,Name:name,Description:description})
+	}
+
+	for _, cat := range categories {
+		mapCategories[cat.Name] = cat.ID
+	}
+
+	return mapCategories,nil
 }
 
 //https://stackoverflow.com/questions/548541/insert-ignore-vs-insert-on-duplicate-key-update

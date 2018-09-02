@@ -29,6 +29,11 @@ func task() error {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
+	categories,_:=procesor.AllCategories(db)
+
+	fmt.Println(categories)
+
+	return nil
 	//fmt.Println("I am runnning task.")
 	//extProducts, err := procesor.ReadFile(conf)
 
