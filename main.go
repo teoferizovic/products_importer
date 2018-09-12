@@ -29,28 +29,27 @@ func task() error {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	categories,_:=procesor.AllCategories(db)
-
-	fmt.Println(categories)
-
-	return nil
-	//fmt.Println("I am runnning task.")
-	//extProducts, err := procesor.ReadFile(conf)
-
-	if err != nil {
-		return  err
-	}
-
-	err = procesor.InsertCategories(db)
+	extProducts,err := procesor.ReadFile(conf)
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	//fmt.Println(extProducts)
+	err = procesor.InsertCategories(db,extProducts)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	categories,err:=procesor.AllCategories(db)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println(categories)
 
 	return nil
-	//fmt.Println(model.Product{"edo",33,10,66});
 
 }
 

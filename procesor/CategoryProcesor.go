@@ -3,19 +3,29 @@ package procesor
 import (
 	"database/sql"
 	"fmt"
+	"products_importer/helper"
 	"products_importer/model"
 )
 
 
-func InsertCategories(db *sql.DB) error {
+func InsertCategories(db *sql.DB,products []model.ExtProduct) error {
 
-	fmt.Println("aaaa")
+	categories := []string{}
 
-	//var vs []model.Category
+	for _, product := range products {
+		categories = append(categories,product.ProductCategory)
+	}
 
-	vs := []model.Category{{Name:"Category22",Description:"kk"},{Name:"Category45",Description:"wewewe"}}
+	uniqueCategories := helper.UniqueString(categories)
 
-	//fmt.Println(vs)
+	vs := []model.Category{}
+
+	for _, cat := range uniqueCategories {
+
+		item := model.Category{Name:cat,Description:""}
+		vs = append(vs,item)
+
+	}
 
 	sqlStr := "INSERT IGNORE INTO categories(name, description) VALUES "
 
