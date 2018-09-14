@@ -51,6 +51,13 @@ func task() error {
 		panic(err.Error())
 	}*/
 
+	products,err := procesor.AllProducts(db)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println(products)
+
 	return nil
 
 }

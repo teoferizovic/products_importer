@@ -50,35 +50,35 @@ func InsertProducts(db *sql.DB,extProducts []model.ExtProduct,categories map[str
 
 func AllProducts(db *sql.DB) (map[string]int,error) {
 
-	var categories []model.Category
-	mapCategories := make(map[string]int)
+	var products []model.Product
+	mapProducts := make(map[string]int)
 
 
-	rows, err := db.Query("SELECT c.id,c.name,c.description FROM categories as c")
+	rows, err := db.Query("SELECT p.id,p.external_name FROM products as p WHERE p.external_name IS NOT NULL")
 
 	if err != nil {
 		return nil, err
 	}
 
 	var id int
-	var name,description sql.NullString
+	var externalName sql.NullString
 
 	for rows.Next() {
 
-		err = rows.Scan(&id,&name, &description)
+		err = rows.Scan(&id,&externalName)
 
 		if err != nil {
 			return nil,err
 		}
 
-		categories = append(categories, model.Category{ID:id,Name:name.String,Description:description.String})
+		products = append(products, model.Product{ID:id,ExternalName:externalName.String,})
 	}
 
-	for _, cat := range categories {
-		mapCategories[cat.Name] = cat.ID
+	for _, prod := range products {
+		mapProducts[prod.ExternalName] = prod.ID
 	}
 
-	return mapCategories,nil
+	return mapProducts,nil
 }
 
 //https://stackoverflow.com/questions/548541/insert-ignore-vs-insert-on-duplicate-key-update
