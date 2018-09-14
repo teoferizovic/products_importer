@@ -56,12 +56,12 @@ func ReadFile(conf model.Config) ([]model.ExtProduct,error) {
 		}
 
 		for i, _ := range prod {
-			extProduct := model.ExtProduct{prod[i]+t.Format("20060102150405") ,cat[i],1,2,img[i]}
+			extProduct := model.ExtProduct{prod[i]+"##"+t.Format("20060102150405") ,cat[i],1,2,img[i]}
 			externalProducts = append(externalProducts, extProduct)
 		}
 
 	}
-
+	//fmt.Println(externalProducts)
 	return externalProducts, nil
 
 

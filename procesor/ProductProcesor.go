@@ -3,37 +3,32 @@ package procesor
 import (
 	"database/sql"
 	"fmt"
-	"products_importer/helper"
 	"products_importer/model"
+	"strings"
 )
 
 
-func InsertCategories(db *sql.DB,products []model.ExtProduct) error {
+func InsertProducts(db *sql.DB,extProducts []model.ExtProduct,categories map[string]int) error {
 
-	categories := []string{}
+	vs := []model.Product{}
 
-	for _, product := range products {
-		categories = append(categories,product.ProductCategory)
-	}
+	for _, extProd := range extProducts {
 
-	uniqueCategories := helper.UniqueString(categories)
+		prodName := strings.Split(extProd.ProductName, "##")
+		categoryId := categories[extProd.ProductCategory]
 
-	vs := []model.Category{}
-
-	for _, cat := range uniqueCategories {
-
-		item := model.Category{Name:cat,Description:""}
+		item := model.Product{Name:prodName[0],Status:extProd.Status,CategoryId:categoryId,Price:extProd.Price,ExternalName:extProd.ProductName}
 		vs = append(vs,item)
 
 	}
 
-	sqlStr := "INSERT IGNORE INTO categories(name, description) VALUES "
+	sqlStr := "INSERT INTO products(name,status,category_id,price,external_name) VALUES "
 
 	vals := []interface{}{}
 
 	for _, row := range vs {
-		sqlStr += "(?, ?),"
-		vals = append(vals, row.Name, row.Description)
+		sqlStr += "(?, ?, ?, ?, ?),"
+		vals = append(vals, row.Name, row.Status, row.CategoryId,row.Price,row.ExternalName)
 	}
 
 	//trim the last ,
@@ -53,7 +48,7 @@ func InsertCategories(db *sql.DB,products []model.ExtProduct) error {
 	return nil
 }
 
-func AllCategories(db *sql.DB) (map[string]int,error) {
+func AllProducts(db *sql.DB) (map[string]int,error) {
 
 	var categories []model.Category
 	mapCategories := make(map[string]int)
