@@ -29,9 +29,13 @@ func task() error {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	extProducts,err := procesor.ReadFile(conf)
+	extProducts,err := procesor.ReadFile(db,conf)
 	if err != nil {
 		panic(err.Error())
+	}
+
+	if len(extProducts) == 0 {
+		return nil
 	}
 
 	err = procesor.InsertCategories(db,extProducts)
@@ -42,14 +46,12 @@ func task() error {
 	categories,err:=procesor.AllCategories(db)
 	if err != nil {
 		panic(err.Error())
-
 	}
-	fmt.Println(categories)
 
-	/*err = procesor.InsertProducts(db,extProducts,categories)
+	err = procesor.InsertProducts(db,extProducts,categories)
 	if err != nil {
 		panic(err.Error())
-	}*/
+	}
 
 	products,err := procesor.AllProducts(db)
 	if err != nil {
