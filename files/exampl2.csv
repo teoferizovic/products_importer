@@ -1,5 +1,5 @@
 ProductName,ProductCategory,Status,Price,Image
-Product5,Category1,3,22,"image1,jpg"
-Product6,Category2,3,11,"image2,jpg"
-Product7,Category2,33,21,"image3,jpg"
-Product8,Category38,3,34,"image4,jpg"
+Product5,Category1,3,22,Image5.jpg
+Product6,Category2,3,11,Image6.jpg
+Product7,Category2,33,21,Image7.jpg
+Product8,Category38,3,34,Image8.jpg

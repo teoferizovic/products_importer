@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"products_importer/model"
-	"strings"
 )
 
 func InsertProductImages(db *sql.DB,products map[string]int,extProducts []model.ExtProduct,conf model.Config) error {
@@ -14,9 +13,15 @@ func InsertProductImages(db *sql.DB,products map[string]int,extProducts []model.
 	for _, extProd := range extProducts {
 
 		productId := products[extProd.ProductName]
-		prodName := strings.Split(extProd.ProductName, "##")
+		var imgName string
 
-		path := conf.ImagePath+prodName[0]
+		if len(extProd.Image) == 0 {
+			imgName = "default.jpg"
+		} else {
+			imgName = extProd.Image
+		}
+
+		path := conf.ImagePath+imgName
 
 		item := model.ProductImage{Path:path,ProductId:productId}
 		vs = append(vs,item)
