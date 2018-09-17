@@ -1,6 +1,7 @@
 # filename: config.toml
 
 filePath = "./files/"
+imagePath = "/storage/product_images/"
 db = "my_db"
 host = "localhost"
 port = "3306"

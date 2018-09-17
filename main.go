@@ -58,7 +58,10 @@ func task() error {
 		panic(err.Error())
 	}
 
-	fmt.Println(products)
+	err = procesor.InsertProductImages(db,products,extProducts,conf)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	return nil
 
